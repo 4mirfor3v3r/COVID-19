@@ -18,12 +18,14 @@ import com.amier.covid_19.databinding.MainFragmentBinding
 import com.amier.covid_19.model.Attributes
 import com.amier.covid_19.model.Provinsi
 import com.amier.covid_19.view.ListCountry
+import kotlinx.android.synthetic.main.main_fragment.view.*
 
 class MainFragment : Fragment() {
 
     companion object {
         fun newInstance() = MainFragment()
     }
+
     var positive = MutableLiveData<String>()
     var recovered = MutableLiveData<String>()
     var death = MutableLiveData<String>()
@@ -32,8 +34,12 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: MainFragmentBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.main_fragment,container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
         binding.lifecycleOwner = this
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         binding.fm = this
@@ -63,56 +69,70 @@ class MainFragment : Fragment() {
         animate()
         Handler().postDelayed({
             setGlobalData()
-        },1600)
-        viewModel.getProvinsi().observe(viewLifecycleOwner, Observer {repoData ->
-            if (repoData!=null) {
+        }, 1600)
+
+        viewModel.getProvinsi().observe(viewLifecycleOwner, Observer { repoData ->
+            if (repoData != null) {
                 idList.value = repoData
                 binding.mainRv.startLayoutAnimation()
             }
         })
 
-        binding.tvGlobalDetail.setOnClickListener{
-            val i = Intent(this.context,ListCountry::class.java)
+        binding.tvGlobalDetail.setOnClickListener {
+            val i = Intent(this.context, ListCountry::class.java)
             startActivity(i)
-            activity?.overridePendingTransition(R.anim.slide_from_bottom,R.anim.slide_to_top)
+            activity?.overridePendingTransition(R.anim.slide_from_bottom, R.anim.slide_to_top)
         }
     }
-    private fun animate(){
-        binding.cardView.startAnimation(AnimationUtils.loadAnimation(this.context,R.anim.scale_up))
-        binding.textView7.startAnimation(AnimationUtils.loadAnimation(this.context,R.anim.translate_up))
+
+    private fun animate() {
         Handler().postDelayed({
             stopPB()
+            binding.cardView.startAnimation(AnimationUtils.loadAnimation(this.context, R.anim.scale_up))
+            binding.textView7.visibility = View.VISIBLE
+            binding.textView7.startAnimation(AnimationUtils.loadAnimation(this.context, R.anim.translate_up))
             Handler().postDelayed({
-                binding.textView2.startAnimation(AnimationUtils.loadAnimation(this.context, R.anim.translate_down))
                 Handler().postDelayed({
-                    binding.textView.startAnimation(
-                        AnimationUtils.loadAnimation(this.context, R.anim.translate_down))
+                    binding.textView2.visibility = View.VISIBLE
+                    binding.textView2.startAnimation(AnimationUtils.loadAnimation(this.context, R.anim.translate_down))
+                    Handler().postDelayed({
+                        binding.textView.visibility = View.VISIBLE
+                        binding.textView.startAnimation(AnimationUtils.loadAnimation(this.context, R.anim.translate_down))
+                    }, 400)
                 }, 400)
             }, 800)
-        },800)
+        }, 200)
     }
-    private fun stopPB(){
+
+    private fun stopPB() {
         binding.pb.visibility = View.GONE
         binding.bgPB.visibility = View.GONE
         binding.tvGlobalDetail.isEnabled = true
         binding.pb.isIndeterminate = false
     }
-    private fun startPB(){
+
+    private fun startPB() {
         binding.pb.visibility = View.VISIBLE
         binding.bgPB.visibility = View.VISIBLE
         binding.tvGlobalDetail.isEnabled = false
         binding.pb.isIndeterminate = true
     }
 
-    private fun setGlobalData(){
-        viewModel.getPositive().observe(viewLifecycleOwner ,Observer{
-            positive.value = "${it.value}\nConfirmed"
+    private fun setGlobalData() {
+        viewModel.getPositive().observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                positive.value = "${it.value}\nConfirmed"
+            }
         })
-        viewModel.getRecovered().observe(viewLifecycleOwner, Observer{
-            recovered.value = "${it.value}\nRecovered"
+        viewModel.getRecovered().observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                recovered.value = "${it.value}\nRecovered"
+            }
         })
         viewModel.getDeath().observe(viewLifecycleOwner, Observer {
-            death.value = "${it.value}\nDeath"
+            if (it != null) {
+                death.value = "${it.value}\nDeath"
+            }
         })
     }
 
