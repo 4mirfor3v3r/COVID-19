@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="data"
+            type="com.amier.covid_19.model.Attributes" />
+    </data>
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="5dp"
+    app:cardMaxElevation="5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvItemMainProv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@{data.provinsi}"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="DKI Jakarta"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvItemMainProv">
+
+            <TextView
+                android:id="@+id/tvItemMainPositif"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/main_id_positif"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="@{`Positif: `+Integer.toString(data.kasus_Posi)}"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                tools:text="DKI Jakarta" />
+
+            <TextView
+                android:id="@+id/tvItemMainSembuh"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/main_id_sembuh"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="@{`Sembuh: `+Integer.toString(data.kasus_Semb)}"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                tools:text="DKI Jakarta" />
+
+            <TextView
+                android:id="@+id/tvItemMainTewas"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/main_id_meninggal"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="@{`Meninggal: ` + Integer.toString(data.kasus_Meni)}"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                tools:text="DKI Jakarta" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
+</layout>
