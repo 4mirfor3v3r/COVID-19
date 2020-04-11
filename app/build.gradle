@@ -5,6 +5,14 @@ apply plugin: 'kotlin-kapt'
 
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('D:\\Keystore\\com.amier.app.jks')
+            storePassword '20031015'
+            keyAlias = 'com.amier.app'
+            keyPassword '20031015'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
@@ -22,6 +30,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable = true
+            signingConfig signingConfigs.release
         }
     }
     dataBinding {
@@ -56,4 +66,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
 
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
 }

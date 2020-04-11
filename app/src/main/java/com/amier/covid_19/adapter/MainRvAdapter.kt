@@ -1,6 +1,5 @@
 package com.amier.covid_19.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -31,9 +30,6 @@ class MainRvAdapter: RecyclerView.Adapter<MainRvAdapter.Holder>(){
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val data = list?.get(position)
-        list?.forEach {
-            Log.e("LIST", "+ $it")
-        }
         if (data != null) {
             holder.bindRows(data)
         }
